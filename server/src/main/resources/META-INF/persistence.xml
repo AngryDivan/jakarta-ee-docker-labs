@@ -1,0 +1,10 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.1">
+    <persistence-unit name="labPU" transaction-type="JTA">
+        <jta-data-source>jdbc/LabDS</jta-data-source>
+
+        <properties>
+            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+            <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/create.sql"/>
+        </properties>
+    </persistence-unit>
+</persistence>

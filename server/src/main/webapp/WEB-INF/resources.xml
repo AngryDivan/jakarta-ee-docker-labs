@@ -1,0 +1,9 @@
+<resources>
+    <Resource id="jdbc/LabDS" type="DataSource">
+        JdbcDriver org.postgresql.Driver
+        JdbcUrl jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME}
+        UserName ${env.DB_USER}
+        Password ${env.DB_PASS}
+        JtaManaged true
+    </Resource>
+</resources>

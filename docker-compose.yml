@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: labdb
+      POSTGRES_USER: labuser
+      POSTGRES_PASSWORD: labpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: labdb
+      DB_USER: labuser
+      DB_PASS: labpass
+      HTTP_PORT: "8080"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/work
+
+volumes:
+  pgdata:

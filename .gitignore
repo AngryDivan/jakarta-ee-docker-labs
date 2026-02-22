@@ -1,0 +1,14 @@
+# Maven
+target/
+*.log
+
+# IntelliJ
+.idea/
+*.iml
+
+# Docker volumes
+pgdata/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <title>Tasks (JSF)</title>
+</h:head>
+<h:body>
+    <h2>Tasks (JSF)</h2>
+
+    <p>
+        <a href="#{request.contextPath}/legacy/hello">Servlet + JSP demo</a>
+    </p>
+
+    <h:form>
+        <h:outputLabel value="Title: " />
+        <h:inputText value="#{taskBean.title}" />
+        <h:commandButton value="Add" action="#{taskBean.add}" />
+    </h:form>
+
+    <h:form>
+        <h:dataTable value="#{taskBean.tasks}" var="t" border="1" cellpadding="6">
+            <h:column>#{t.id}</h:column>
+            <h:column>#{t.title}</h:column>
+            <h:column>#{t.done}</h:column>
+            <h:column>
+                <h:commandButton value="Toggle" action="#{taskBean.toggle(t.id)}"/>
+                <h:commandButton value="Delete" action="#{taskBean.delete(t.id)}"/>
+            </h:column>
+        </h:dataTable>
+    </h:form>
+
+</h:body>
+</html>
