@@ -35,9 +35,6 @@ docker compose up --build
 
 # После запуска:
 
-GlassFish Admin Console:\
-http://localhost:4848
-
 Демо-приложение:\
 http://localhost:8080
 
