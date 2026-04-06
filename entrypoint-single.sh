@@ -3,7 +3,6 @@ set -euo pipefail
 
 HTTP_PORT="${HTTP_PORT:-8080}"
 
-# Теперь БД в этом же контейнере
 DB_HOST="127.0.0.1"
 DB_PORT="${DB_PORT:-5432}"
 DB_NAME="${DB_NAME:-labdb}"
@@ -13,7 +12,6 @@ DB_PASS="${DB_PASS:-labpass}"
 PGDATA="${PGDATA:-/var/lib/postgresql/data}"
 
 pg_bin_dir() {
-  # на Debian/Ubuntu postgres bin обычно тут: /usr/lib/postgresql/<ver>/bin
   ls -d /usr/lib/postgresql/*/bin 2>/dev/null | head -n 1
 }
 
@@ -31,11 +29,9 @@ if [ ! -s "${PGDATA}/PG_VERSION" ]; then
 
   su - postgres -c "${PGBIN}/initdb -D '$PGDATA'"
 
-  # Слушаем только localhost (внутри контейнера достаточно)
   echo "listen_addresses = '127.0.0.1'" >> "${PGDATA}/postgresql.conf"
   echo "port = ${DB_PORT}" >> "${PGDATA}/postgresql.conf"
 
-  # auth для localhost
   echo "host all all 127.0.0.1/32 scram-sha-256" >> "${PGDATA}/pg_hba.conf"
   echo "local all all scram-sha-256" >> "${PGDATA}/pg_hba.conf"
 fi
@@ -44,11 +40,11 @@ su - postgres -c "${PGBIN}/pg_ctl -D '$PGDATA' -w start"
 
 echo "[1/8] Ensure user/db exist..."
 
-# Создаём пользователя (если нет)
+
 su - postgres -c "psql -tAc \"SELECT 1 FROM pg_roles WHERE rolname='${DB_USER}'\" | grep -q 1 \
 || psql -c \"CREATE ROLE ${DB_USER} LOGIN PASSWORD '${DB_PASS}';\""
 
-# Создаём базу (если нет)
+
 su - postgres -c "psql -tAc \"SELECT 1 FROM pg_database WHERE datname='${DB_NAME}'\" | grep -q 1 \
 || psql -c \"CREATE DATABASE ${DB_NAME} OWNER ${DB_USER};\""
 echo "[2/8] Build server WAR..."

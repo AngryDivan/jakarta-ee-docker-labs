@@ -2,7 +2,6 @@ FROM eclipse-temurin:21-jdk
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# + postgres
 RUN apt-get update && apt-get install -y \
     maven git curl wget unzip ca-certificates bash \
     postgresql postgresql-contrib \
@@ -31,11 +30,9 @@ ENV PATH="${GLASSFISH_HOME}/bin:${PATH}"
 
 WORKDIR /work
 COPY . /work
-# Вместо старого entrypoint.sh копируем "single" вариант
 COPY entrypoint-single.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Чтобы данные Postgres не пропадали
 VOLUME ["/var/lib/postgresql/data"]
 
 EXPOSE 8080
