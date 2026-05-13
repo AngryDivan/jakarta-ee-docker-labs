@@ -28,8 +28,6 @@ cd jakarta-ee-docker-labs
 
 ## 2️⃣ Запускаем
 
-### ВАЖНО!!! Перед запуском команды снизу не забудьте включить Docker Engine(просто запустите Docker Desktop) и любой VPN(подгрузка glassfish у вас просто выдаст ошибку).
-
 ```bash
 docker build -t lab-demo .
 docker run --rm -p 8080:8080 -v lab_pg:/var/lib/postgresql/data lab-demo

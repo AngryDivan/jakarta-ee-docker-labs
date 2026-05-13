@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
     postgresql postgresql-contrib \
     && rm -rf /var/lib/apt/lists/*
 
+# VS Code в браузере
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
 ARG JAVAFX_VERSION=21.0.5
 RUN mkdir -p /opt/javafx && \
     wget --progress=dot:giga --tries=5 --timeout=20 --waitretry=3 \
@@ -28,6 +31,11 @@ RUN mkdir -p /opt/glassfish && \
 ENV GLASSFISH_HOME=/opt/glassfish/glassfish8
 ENV PATH="${GLASSFISH_HOME}/bin:${PATH}"
 
+# PostgreSQL JDBC driver для GlassFish
+RUN mkdir -p ${GLASSFISH_HOME}/domains/domain1/lib && \
+    wget -O ${GLASSFISH_HOME}/domains/domain1/lib/postgresql.jar \
+    https://jdbc.postgresql.org/download/postgresql-42.7.4.jar
+
 WORKDIR /work
 COPY . /work
 COPY entrypoint-single.sh /entrypoint.sh
@@ -35,6 +43,6 @@ RUN chmod +x /entrypoint.sh
 
 VOLUME ["/var/lib/postgresql/data"]
 
-EXPOSE 8080
+EXPOSE 8080 4848 5432 8443
 
 CMD ["/entrypoint.sh"]
