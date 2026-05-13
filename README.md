@@ -29,17 +29,26 @@ cd jakarta-ee-docker-labs
 ## 2️⃣ Запускаем
 
 ```bash
-docker build -t lab-demo .
-docker run --rm -p 8080:8080 -v lab_pg:/var/lib/postgresql/data lab-demo
+docker compose up --build
 ```
 
 # После запуска:
 
-Демо-приложение:\
-http://localhost:8080\
-localhost:8080/lab-demo - демонстрация работы контейнера\
-localhost:8080/lab-demo/api/tasks - база данных\
-mvn -pl fx-client javafx:run - (в отдельном Bash терминале) запуск клиента демострационного приложения
+Демо-приложение:
+
+http://localhost:8080/lab-demo
+
+Запуск клиента демострационного приложения(в отдельном Bash терминале)
+
+```bash
+mvn -pl fx-client javafx:run
+```
+
+GlassFish Admin:
+http://localhost:4848
+
+VS Code IDE:
+http://localhost:8443
 
 Если у вас это запустилось без ошибок - значит все работает.
 
@@ -47,7 +56,7 @@ mvn -pl fx-client javafx:run - (в отдельном Bash терминале) �
 
 # 🖥 Демонстрационное приложение
 
-В проект уже встроено полноценное демонстрационное Jakarta EE приложение `lab-demo`.
+В проект уже встроено полноценное демонстрационное Jakarta EE приложение `jakarta-ee-docker-labs`.
 
 Оно показывает работу:
 
@@ -209,10 +218,10 @@ http://localhost:8080/lab-demo/api/tasks
 2. запускается GlassFish;
 3. создается JDBC Pool;
 4. создается JDBC Resource;
-5. деплоится приложение `lab-demo`;
+5. деплоится приложение `jakarta-ee-docker-labs`;
 6. запускается сервер.
 
-Все это выполняется автоматически через `entrypoint.sh`.
+Все это выполняется автоматически через `entrypoint-single.sh`.
 
 ---
 
@@ -284,7 +293,7 @@ http://localhost:8080/lab-demo/api/tasks
 После добавления лабораторной:
 
 ```bash
-docker build -t lab-demo .
+docker build -t jakarta-ee-docker-labs .
 ```
 
 ---
